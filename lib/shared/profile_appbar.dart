@@ -6,7 +6,9 @@ import '../screens/profile/edit_profile.dart';
 
 class ProfileAppBar extends StatelessWidget with PreferredSizeWidget {
   final firstName, midName, lastName;
-  const ProfileAppBar({this.firstName, this.lastName, this.midName, Key? key})
+  final student_id;
+  const ProfileAppBar(
+      {this.firstName, this.lastName, this.midName, this.student_id, Key? key})
       : super(key: key);
 
   @override
@@ -40,7 +42,8 @@ class ProfileAppBar extends StatelessWidget with PreferredSizeWidget {
                 borderRadius: BorderRadius.circular(100), color: Colors.white),
             child: IconButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, EditProfile.id);
+                  Navigator.pushReplacementNamed(context, EditProfile.id,
+                      arguments: student_id);
                 },
                 icon: const Icon(Icons.edit)))
       ],
