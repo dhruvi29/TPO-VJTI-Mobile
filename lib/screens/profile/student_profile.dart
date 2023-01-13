@@ -5,6 +5,7 @@ import 'package:supa_test/shared/list_tile.dart';
 import 'package:supa_test/shared/profile_appbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/profile_details.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -38,12 +39,14 @@ class _StudentProfileState extends State<StudentProfile> {
             var first_name = data[0]['firstName'];
             var mid_name = data[0]['middleName'];
             var last_name = data[0]['lastName'];
+            var student_id = data[0]['id'];
 
             return Scaffold(
                 appBar: ProfileAppBar(
                   firstName: first_name,
                   midName: mid_name,
                   lastName: last_name,
+                  student_id: student_id,
                 ),
                 body: SingleChildScrollView(
                     child: Column(
@@ -78,10 +81,32 @@ class _StudentProfileState extends State<StudentProfile> {
                             .format(DateTime.parse(data[0]['dob']))
                             .toString(),
                         iconColor: Colors.amber),
-                    CustomListTile(
-                        icon: Icons.link,
-                        titleString: data[0]['resumeLink'],
-                        iconColor: Colors.amber),
+                    ListTile(
+                      leading: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(
+                          Icons.link,
+                          color: Colors.amber,
+                        ),
+                      ),
+                      title: InkWell(
+                        onTap: () async {
+                          try {
+                            await launchUrlString(
+                                data[0]['resumeLink'].toString());
+                          } catch (err) {
+                            debugPrint('Something bad happened');
+                          }
+                        },
+                        child: Text(
+                          data[0]['resumeLink'],
+                        ),
+                      ),
+                    ),
+                    // CustomListTile(
+                    //     icon: Icons.link,
+                    //     titleString: data[0]['resumeLink'],
+                    //     iconColor: Colors.amber),
                     Card(
                       margin: const EdgeInsets.all(10),
                       elevation: 10,

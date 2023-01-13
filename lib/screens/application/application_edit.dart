@@ -5,7 +5,6 @@ import 'package:supa_test/shared/profile_appbar.dart';
 import '../../components/edit_field.dart';
 
 class EditApplication extends StatefulWidget {
-
   static const id = "EditApplication";
 
   EditApplication({Key? key}) : super(key: key);
@@ -29,36 +28,38 @@ class _EditApplicationState extends State<EditApplication> {
             title: Text("SEP Summer Intern"),
             subtitle: Text("J.P. Morgan & Chase"),
           )),
-
       body: Column(children: [
-        EditField(TextInputType.emailAddress,"Personal Email",Icons.email,(val){
-          student1.email = val;
-        },enable: false,),
-        EditField(TextInputType.emailAddress,"Institute Email",Icons.email,(val){
+        EditField(
+          TextInputType.emailAddress,
+          "Personal Email",
+          Icons.email,
+          (val) {
+            student1.email = val;
+          },
+          enable: false,
+        ),
+        EditField(TextInputType.emailAddress, "Institute Email", Icons.email,
+            (val) {
           student1.instituteEmail = val;
-        },enable: false),
-        EditField(TextInputType.number,"Phone Number",Icons.phone,(val){
+        }, enable: false),
+        EditField(TextInputType.number, "Phone Number", Icons.phone, (val) {
           student1.phone = val;
-        },enable: false),
-        EditField(TextInputType.url,"Resume Link",Icons.phone,(val){
+        }, enable: false),
+        EditField(TextInputType.url, "Resume Link", Icons.phone, (val) {
           student1.resumeLink = val;
-        },enable: false),
-        
+        }, enable: false),
         Padding(
           padding: const EdgeInsets.all(15),
           child: SizedBox(
             width: double.infinity,
-            child: ElevatedButton(onPressed: (){
-              // Navigator.pushReplacementNamed(context, StudentProfile.id);
-            },
-            
-             child: const Text("Apply")),
+            child: ElevatedButton(
+                onPressed: () {
+                  // Navigator.pushReplacementNamed(context, StudentProfile.id);
+                },
+                child: const Text("Apply")),
           ),
         )
-
-        
       ]),
     );
   }
 }
-
