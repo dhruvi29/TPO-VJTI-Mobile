@@ -3,6 +3,8 @@ import 'package:supa_test/screens/auth/signup.dart';
 import 'package:supa_test/screens/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../models/User.dart';
+
 class SignIn extends StatefulWidget {
   static const id = "SignInScreen";
   
@@ -21,9 +23,12 @@ class _SignInState extends State<SignIn> {
       email: emailController.text,
       password: passwordController.text,
     );
-    final Session? session = response.session;
-    final User? user = response.user;
-    return user?.id;
+    // final Session? session = response.session;
+    user = response.user;
+    print("hello");
+    print(user?.id);
+Navigator.pushReplacementNamed(context, MyHomePage.id);
+
   }
 
   @override
@@ -174,7 +179,6 @@ class _SignInState extends State<SignIn> {
                             GestureDetector(
                               onTap: () {
                                 onTapBtnSignin();
-                                Navigator.pushReplacementNamed(context, MyHomePage.id);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(
@@ -266,8 +270,8 @@ class _SignInState extends State<SignIn> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                // Navigator.pushReplacementNamed(
-                                //     context, SignUpScreen.id);
+                                Navigator.pushReplacementNamed(
+                                    context, SignUpScreen.id);
                               },
                               child: Container(
                                 width: 212,
