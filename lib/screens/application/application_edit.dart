@@ -6,7 +6,7 @@ import '../../components/edit_field.dart';
 
 class EditApplication extends StatefulWidget {
 
-  static const id = "EditProfile";
+  static const id = "EditApplication";
 
   EditApplication({Key? key}) : super(key: key);
 

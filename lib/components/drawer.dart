@@ -3,11 +3,16 @@ import 'package:supa_test/screens/application/applications_list.dart';
 import 'package:supa_test/screens/calender.dart';
 import 'package:supa_test/screens/job/job_display.dart';
 import 'package:supa_test/screens/job/jobs_list.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/profile_details.dart';
+import '../screens/auth/signin.dart';
 import '../screens/profile/student_profile.dart';
 import '../shared/circular_image.dart';
 import '../shared/list_tile.dart';
+
+final supabase = Supabase.instance.client;
+
 
 Widget myHeaderDrawer(BuildContext context) {
   return Container(
@@ -45,7 +50,10 @@ Widget myDrawerList(BuildContext context) {
         const Divider(),
         CustomListTile(icon: Icons.add_reaction,titleString: "Past Experiences"),
         const Divider(),
-        CustomListTile(icon: Icons.logout,titleString: "Logout"),
+        CustomListTile(icon: Icons.logout,titleString: "Logout",onPressed: (){
+          supabase.auth.signOut();
+          Navigator.pushReplacementNamed(context, SignIn.id);
+        },),
         
       ],
     ),
