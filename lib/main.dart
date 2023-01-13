@@ -5,6 +5,7 @@ import 'package:supa_test/screens/application/application_edit.dart';
 import 'package:supa_test/screens/application/applications_list.dart';
 import 'package:supa_test/screens/auth/signin.dart';
 import 'package:supa_test/screens/calender.dart';
+import 'package:supa_test/screens/decision.dart';
 import 'package:supa_test/screens/home_page.dart';
 import 'package:supa_test/screens/job/job_display.dart';
 import 'package:supa_test/screens/job/jobs_list.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.amber,
             iconTheme: const IconThemeData(color: Colors.amber)),
-        initialRoute: MyHomePage.id,
+        initialRoute: Decision.id,
         routes: {
           MyHomePage.id: (context) => MyHomePage(),
           StudentProfile.id : (context) => StudentProfile(),
@@ -49,7 +50,8 @@ class MyApp extends StatelessWidget {
           ApplicationList.id: (context) => ApplicationList(),
           EditApplication.id: (context) => EditApplication(),
           Calender.id: (context)=>Calender(),
-          // SignInScreen.id: (context)=>SignInScreen(),
+          SignIn.id: (context)=>SignIn(),
+          Decision.id: (context)=>Decision(),
           // SignUpScreen.id: (context)=>SignUpScreen(),
         },
       ),
