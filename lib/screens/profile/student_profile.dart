@@ -3,8 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:supa_test/screens/profile/edit_profile.dart';
 import 'package:supa_test/shared/list_tile.dart';
 import 'package:supa_test/shared/profile_appbar.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/profile_details.dart';
+
+final supabase = Supabase.instance.client;
 
 class StudentProfile extends StatefulWidget {
   static const id = "StudentProfile";
@@ -16,117 +18,147 @@ class StudentProfile extends StatefulWidget {
 }
 
 class _StudentProfileState extends State<StudentProfile> {
+  Future<void> readData() async {
+    final data = await supabase
+        .from('Students')
+        .select('''*''').match({'id': '0173a65e-ac39-405c-8a92-e2fa1d6d49cb'});
+    print(data);
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const ProfileAppBar(),
-        body: SingleChildScrollView(
-            child: Column(
-          children: [
-            CustomListTile(
-                icon: Icons.book,
-                titleString: student1.program,
-                iconColor: Colors.amber),
-            CustomListTile(
-                icon: Icons.computer,
-                titleString: student1.branch,
-                iconColor: Colors.amber),
-            CustomListTile(
-                icon: Icons.email,
-                titleString: student1.email,
-                iconColor: Colors.amber),
-            CustomListTile(
-                icon: Icons.email_outlined,
-                titleString: student1.instituteEmail,
-                iconColor: Colors.amber),
-            CustomListTile(
-                icon: Icons.grade_sharp,
-                titleString: student1.registrationId,
-                iconColor: Colors.amber),
-            CustomListTile(
-                icon: Icons.phone,
-                titleString: student1.phone,
-                iconColor: Colors.amber),
-            CustomListTile(
-                icon: Icons.cake,
-                titleString: DateFormat.yMd()
-                    .format(student1.birthdate ?? DateTime.now())
-                    .toString(),
-                iconColor: Colors.amber),
-            CustomListTile(
-                icon: Icons.link,
-                titleString: "Resume",
-                iconColor: Colors.amber),
-            Card(
-              margin: const EdgeInsets.all(10),
-              elevation: 10,
-              child: Column(
-                children: [
-                  Container(
-                      padding: const EdgeInsets.all(10),
-                      child: const Text(
-                        "Semester Grades",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w400),
-                      )),
-                  const Divider(),
-                  DisplayGrade(
-                      sem: "I", score: (student1.grades ?? dummyGrades)[0]),
-                  DisplayGrade(
-                      sem: "II", score: (student1.grades ?? dummyGrades)[1]),
-                  DisplayGrade(
-                      sem: "III", score: (student1.grades ?? dummyGrades)[2]),
-                  DisplayGrade(
-                      sem: "IV", score: (student1.grades ?? dummyGrades)[3]),
-                  DisplayGrade(
-                      sem: "V", score: (student1.grades ?? dummyGrades)[4]),
-                  DisplayGrade(
-                      sem: "VI", score: (student1.grades ?? dummyGrades)[5]),
-                  const Divider(),
-                  Container(
-                    child: ListTile(
-                      leading: const Text(
-                        "CPI",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.amber),
+    return FutureBuilder<void>(
+        future: readData(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            var data = snapshot.data;
+            int len = data.length;
+
+            var first_name = data[0]['firstName'];
+            var mid_name = data[0]['middleName'];
+            var last_name = data[0]['lastName'];
+
+            return Scaffold(
+                appBar: ProfileAppBar(
+                  firstName: first_name,
+                  midName: mid_name,
+                  lastName: last_name,
+                ),
+                body: SingleChildScrollView(
+                    child: Column(
+                  children: [
+                    CustomListTile(
+                        icon: Icons.book,
+                        titleString: data[0]['programme'],
+                        iconColor: Colors.amber),
+                    CustomListTile(
+                        icon: Icons.computer,
+                        titleString: data[0]['branch'],
+                        iconColor: Colors.amber),
+                    CustomListTile(
+                        icon: Icons.email,
+                        titleString: data[0]['personalEmail'],
+                        iconColor: Colors.amber),
+                    CustomListTile(
+                        icon: Icons.email_outlined,
+                        titleString: data[0]['clgEmail'],
+                        iconColor: Colors.amber),
+                    CustomListTile(
+                        icon: Icons.grade_sharp,
+                        titleString: data[0]['clgId'].toString(),
+                        iconColor: Colors.amber),
+                    CustomListTile(
+                        icon: Icons.phone,
+                        titleString: data[0]['mobileNumber'].toString(),
+                        iconColor: Colors.amber),
+                    CustomListTile(
+                        icon: Icons.cake,
+                        titleString: DateFormat.yMd()
+                            .format(DateTime.parse(data[0]['dob']))
+                            .toString(),
+                        iconColor: Colors.amber),
+                    CustomListTile(
+                        icon: Icons.link,
+                        titleString: data[0]['resumeLink'],
+                        iconColor: Colors.amber),
+                    Card(
+                      margin: const EdgeInsets.all(10),
+                      elevation: 10,
+                      child: Column(
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.all(10),
+                              child: const Text(
+                                "Semester Grades",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              )),
+                          const Divider(),
+                          DisplayGrade(
+                              sem: "I", score: (data[0]['SPI1'].toString())),
+                          DisplayGrade(
+                              sem: "II", score: (data[0]['SPI2'].toString())),
+                          DisplayGrade(
+                              sem: "III", score: (data[0]['SPI3'].toString())),
+                          DisplayGrade(
+                              sem: "IV", score: (data[0]['SPI4'].toString())),
+                          DisplayGrade(
+                              sem: "V", score: (data[0]['SPI5'].toString())),
+                          DisplayGrade(
+                              sem: "VI", score: (data[0]['SPI6'].toString())),
+                          DisplayGrade(
+                              sem: "VII", score: (data[0]['SPI7'].toString())),
+                          DisplayGrade(
+                              sem: "VIII", score: (data[0]['SPI8'].toString())),
+                          const Divider(),
+                          Container(
+                            child: ListTile(
+                              leading: const Text(
+                                "CPI",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.amber),
+                              ),
+                              title: Text((data[0]['CPI']).toString()),
+                            ),
+                            padding: const EdgeInsets.all(5),
+                          ),
+                        ],
                       ),
-                      title: Text((student1.cpi ?? '-').toString()),
                     ),
-                    padding: const EdgeInsets.all(5),
-                  ),
-                ],
-              ),
-            ),
-            Card(
-              margin: const EdgeInsets.all(10),
-              elevation: 10,
-              child: Column(
-                children: [
-                  Container(
-                      padding: const EdgeInsets.all(10),
-                      child: const Text(
-                        "Previous Scores",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w400),
-                      )),
-                  const Divider(),
-                  DisplayGrade(
-                    sem: "X",
-                    score: student1.tenth,
-                    trailText: student1.tenthBoard,
-                  ),
-                  DisplayGrade(
-                    sem: "XII",
-                    score: student1.twelth,
-                    trailText: student1.twelthBoard,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        )));
+                    Card(
+                      margin: const EdgeInsets.all(10),
+                      elevation: 10,
+                      child: Column(
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.all(10),
+                              child: const Text(
+                                "Previous Scores",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w400),
+                              )),
+                          const Divider(),
+                          DisplayGrade(
+                            sem: "X",
+                            score: data[0]['10th'],
+                            trailText: student1.tenthBoard,
+                          ),
+                          DisplayGrade(
+                            sem: "XII",
+                            score: data[0]['12th'],
+                            trailText: student1.twelthBoard,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )));
+          }
+          return Scaffold(body: const CircularProgressIndicator());
+        });
   }
 }
 
