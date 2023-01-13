@@ -4,14 +4,16 @@ import 'package:supa_test/screens/application/application_edit.dart';
 import '../screens/job/job_display.dart';
 
 class JobCard extends StatelessWidget {
-  const JobCard({
+  final companyName, isArchive,title,salary,timeLeft,location,id;
+
+  const JobCard(this.title,this.companyName,this.isArchive,this.salary,this.timeLeft,this.location,this.id,{
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.pushNamed(context, JobProfile.id),
+      onTap: () => Navigator.pushNamed(context, JobProfile.id,arguments: id),
       child: Card(
         elevation: 10,
         child: Column(
@@ -20,12 +22,22 @@ class JobCard extends StatelessWidget {
               leading: CircleAvatar(
                   backgroundColor: Colors.amber,
                   child: Text(
-                    "JP",
+                    companyName[0],
                     style: const TextStyle(color: Colors.white),
                   )),
-              title: Text("SEP Summer Intern"),
-              subtitle: Text("J.P. MOrgan & Chase"),
-              trailing: ElevatedButton(
+              title: Text(title),
+              subtitle: Text(companyName),
+              trailing: isArchive? ClipRRect(
+        borderRadius: BorderRadius.circular(20.0), //or 15.0
+        child: Container(
+          padding: EdgeInsets.all(10),
+          color: const Color(0xffFF0E58),
+          child: Text(
+    "Archived",
+    style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      ): ElevatedButton(
                   child: Text(
                     "Apply",
                     style: TextStyle(color: Colors.white),
@@ -39,11 +51,11 @@ class JobCard extends StatelessWidget {
             ),
             const Divider(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                detailIcon(Icons.currency_rupee,"1,00,000"),
-                detailIcon(Icons.access_time,"3 days left"),
-                detailIcon(Icons.location_city,"Mumbai,Bangalore")
+                detailIcon(Icons.currency_rupee,salary),
+                detailIcon(Icons.access_time,timeLeft),
+                detailIcon(Icons.location_city,location)
     
               ],
             )
@@ -64,11 +76,15 @@ class detailIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon),
-        Text(text),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left:15.0, right: 15.0),
+      child: Row(
+        children: [
+          Icon(icon),
+          SizedBox(width: 5,),
+          Text(text),
+        ],
+      ),
     );
   }
 }

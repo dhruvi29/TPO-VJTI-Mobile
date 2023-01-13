@@ -28,8 +28,6 @@ class ApplicationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0), //or 15.0
         child: Container(
           padding: EdgeInsets.all(10),
-          // height: 30.0,
-          // width: 50.0,
           color: const Color(0xffFF0E58),
           child: Text(
     status,

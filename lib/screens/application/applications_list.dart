@@ -18,7 +18,7 @@ class _ApplicationListState extends State<ApplicationList> {
   Future<void> readData() async {
     final data = await supabase.from('Applications').select('''
       *,
-      Job_Details(id,title,noOfRounds,companyName) ''');
+      Job_Details(id,title,noOfRounds,companyName) ''').match({/* match student id here */});
     print(data);
     return data;
   }
@@ -48,7 +48,7 @@ class _ApplicationListState extends State<ApplicationList> {
             );
           }
 
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

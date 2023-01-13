@@ -39,29 +39,29 @@ class _AllJobsState extends State<AllJobs> {
         stream: _stream,
         builder: (context,AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            final job_list = snapshot.data;
+            final jobList = snapshot.data;
 
-            var e = job_list?.iterator;
-            job_list?.elementAt(0);
-            // print(job_list?.elementAt(0));
-            // print("''''''''");
-            // print(job_list);
-            print(job_list?.length);
-            var job_len = job_list?.length;
+            var jobLen = jobList?.length;
+            jobLen??=0;
 
-            if (job_len == null) {
-              job_len = 0;
-            }
-            print("here");
             return ListView.builder(
-                itemCount: job_len,
+                itemCount: jobLen,
                 itemBuilder: (context, index) {
-                  // return Text("T");
-                  return ItemWidget(item: job_list?.elementAt(index));
+                  // print(jobList[index]);
+                  return JobCard(
+                    jobList[index]['title'],
+                    jobList[index]['companyName'],
+                    jobList[index]['isArchived']??false,
+                    jobList[index]['salary'].toString(),
+                    jobList[index]['endDateToApply']==null?"":DateTime.parse(jobList[index]['endDateToApply']).toUtc().difference(DateTime.now().toUtc()).inDays.toString()+" days",
+                    jobList[index]['locations'].toString(),
+                    jobList[index]['id'],
+
+                      // true
+                  );
                 });
           }
-          print("there");
-          return Text("Hello");
+          return const Center(child: CircularProgressIndicator());
         }),
 
     );
