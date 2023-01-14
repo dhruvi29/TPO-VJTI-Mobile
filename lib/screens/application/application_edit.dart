@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:supa_test/models/profile_details.dart';
 import 'package:supa_test/shared/profile_appbar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../components/edit_field.dart';
+import '../calender.dart';
 
 class EditApplication extends StatefulWidget {
-  static const id = "EditApplication";
+  static const id = "EditProfile";
 
   EditApplication({Key? key}) : super(key: key);
 
@@ -14,6 +16,15 @@ class EditApplication extends StatefulWidget {
 }
 
 class _EditApplicationState extends State<EditApplication> {
+  Future createApplication({
+    required final int jobId,
+    required final String studentId,
+    required final String resumeLink,
+  }) async {
+    PostgrestResponse? response = await supabase.from('Applications').insert(
+        {"jobId": jobId, "studentId": studentId, "resumeLink": resumeLink});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +66,11 @@ class _EditApplicationState extends State<EditApplication> {
             child: ElevatedButton(
                 onPressed: () {
                   // Navigator.pushReplacementNamed(context, StudentProfile.id);
+                  createApplication(
+                      jobId: 2,
+                      studentId: '77fc94b0-7c9a-423a-bb09-a05bfb2b9bfe',
+                      resumeLink:
+                          "https://docs.google.com/document/d/1CNkznkHiSqI1zSHLY-NRZy0MgXhDHg-RDPe5EuJqwQk/edit");
                 },
                 child: const Text("Apply")),
           ),
