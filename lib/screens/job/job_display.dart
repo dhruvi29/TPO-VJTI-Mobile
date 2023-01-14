@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../models/student.dart';
 import '../../shared/list_tile.dart';
 import '../application/application_edit.dart';
 
@@ -67,11 +68,6 @@ class _JobProfileState extends State<JobProfile> {
                         context,
                         "Application Deadline",
                         // data['endDateToApply'].toString(),
-                        data['endDateToApply'] == null
-                            ? "N/A"
-                            : DateFormat.yMd()
-                                .format(DateTime.parse(data['endDateToApply']))
-                                .toString(),
                         data['endDateToApply'] == null
                             ? "N/A"
                             : DateFormat.yMd()
