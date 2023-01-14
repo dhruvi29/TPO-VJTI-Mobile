@@ -16,14 +16,16 @@ class JobProfile extends StatefulWidget {
   State<JobProfile> createState() => _JobProfileState();
 }
 
-
 class _JobProfileState extends State<JobProfile> {
   Future<void> readData(int id_) async {
     final data = await supabase.from('Job_Details').select('''
       *''').match({'id': id_});
-      print(student);
+    print("criteria");
+    print(data);
     return data;
   }
+
+  bool studentEligibility = true;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,11 @@ class _JobProfileState extends State<JobProfile> {
                         context,
                         "Application Deadline",
                         // data['endDateToApply'].toString(),
-                        data['endDateToApply']==null?"N/A":DateFormat.yMd().format(DateTime.parse(data['endDateToApply'])).toString(),
+                        data['endDateToApply'] == null
+                            ? "N/A"
+                            : DateFormat.yMd()
+                                .format(DateTime.parse(data['endDateToApply']))
+                                .toString(),
                         Icons.calendar_month),
                     const Divider(),
                     rowDisplay(context, "Location", data['locations'] ?? "PAN",
@@ -67,26 +73,9 @@ class _JobProfileState extends State<JobProfile> {
                     rowDisplay(context, "Cost to Company (CTC)",
                         data['salary'].toString(), Icons.currency_rupee),
                     const Divider(),
-                    rowDisplay(
-                        context, "Eligibility", "Eligible", Icons.person),
+                    rowDisplay(context, "Eligibility", "", Icons.person),
                     eligibility(jobId),
                     
-                    SizedBox(
-                        width: double.infinity,
-                        child: Container(
-                          padding: const EdgeInsets.all(15.0),
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Apply Now',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.pink)),
-                          ),
-                        ))
                   ],
                 ),
               ),
@@ -98,62 +87,248 @@ class _JobProfileState extends State<JobProfile> {
 
   Future<void> readEligility(int id_) async {
     final data = await supabase.from('Job_Requirements').select('''
-      *''').match({'jobId': 15});
-      print(data);
+      *''').match({'jobId': 2});
+    print("student");
+    print(Student.student);
     return data;
   }
 
   FutureBuilder<void> eligibility(int jobId) {
     return FutureBuilder(
         future: readEligility(jobId),
-        builder: ((context,AsyncSnapshot snapshot) {
+        builder: ((context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             var criteria = snapshot.data[0];
             return Column(
               children: [
-                
-                criteria["10th"]==0?Container():ListTile(
-                  leading: Icon(Icons.check_circle),
-                  title: Text("Tenth"),
-                  subtitle: Text(criteria["10th"].toString(),
-                  
-                  ),
-                ),
-                criteria["12th"]==0?Container():ListTile(
-                  leading: Icon(Icons.check_circle),
-                  title: Text("Twevth"),
-                  subtitle: Text(criteria["12th"].toString()),
-                ),
-                criteria["cpi"]==0?Container():ListTile(
-                  leading: Icon(Icons.check_circle),
-                  title: Text("CPI"),
-                  subtitle: Text(criteria["cpi"].toString()),
-                ),
-                ListTile(
-                  leading: Icon(Icons.check_circle),
-                  title: Text("Backlogs"),
-                  subtitle: Text(criteria["backlogs"].toString()),
-                ),
-                criteria["allowedBranches"] == null ? Container():ListTile(
-                  leading: Icon(Icons.check_circle),
-                  title: Text("Branches"),
-                  subtitle: Text(criteria["allowedBranches"]),
-                ),
-                criteria["allowedGenders"] == null ? Container():ListTile(
-                  leading: Icon(Icons.check_circle),
-                  title: Text("Gender"),
-                  subtitle: Text(criteria["allowedGenders"]),
-                ),
-                criteria["allowedPrograms"] == null ? Container():ListTile(
-                  leading: Icon(Icons.check_circle),
-                  title: Text("Allowed Programs"),
-                  subtitle: Text(criteria["allowedPrograms"]),
-                ),
+                tenth(criteria),
+                twelvth(criteria),
+                cpi(criteria),
+                backlogs(criteria),
+                allowedBranches(criteria),
+                allowedGenders(criteria),
+                allowedPrograms(criteria),
+                SizedBox(
+                        width: double.infinity,
+                        child: Container(
+                          padding: const EdgeInsets.all(15.0),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: Text(
+                              studentEligibility?'Apply Now':'Not Eligible',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            style: ButtonStyle(
+                                backgroundColor:
+                            
+                                    MaterialStateProperty.all(studentEligibility?Colors.pink:Colors.grey)),
+                          ),
+                        ))
+                // setEligibility(),
+                // Text(studentEligibility ? "Eligible" : "Not Eligible"),
               ],
             );
           }
           return const Center(child: CircularProgressIndicator());
         }));
+  }
+
+  Widget backlogs(var criteria) {
+    if (criteria["backlogs"] == 0) {
+      return Container();
+    }
+    bool e = true;
+    if (criteria["backlogs"] < Student.student['backlogs']) {
+      e = false;
+
+      studentEligibility = false;
+    }
+    return ListTile(
+      leading: e
+          ? Icon(
+              Icons.check_circle,
+              color: Colors.green,
+            )
+          : Icon(
+              Icons.disabled_by_default,
+              color: Colors.red,
+            ),
+      title: Text("Backlogs"),
+      subtitle: Text(
+        criteria["backlogs"].toString(),
+      ),
+    );
+  }
+
+  Widget cpi(var criteria) {
+    print("33333333333333333333");
+    print(criteria);
+    if (criteria["cpi"] == Null || criteria["cpi"] == 0) {
+      return Container();
+    }
+    bool e = true;
+    if (criteria["cpi"] > Student.student['CPI']) {
+      e = false;
+
+      studentEligibility = false;
+    }
+    return ListTile(
+      leading: e
+          ? Icon(
+              Icons.check_circle,
+              color: Colors.green,
+            )
+          : Icon(
+              Icons.disabled_by_default,
+              color: Colors.red,
+            ),
+      title: Text("CPI"),
+      subtitle: Text(
+        criteria["cpi"].toString(),
+      ),
+    );
+  }
+
+  Widget twelvth(var criteria) {
+    if (criteria["12th"] == 0) {
+      return Container();
+    }
+    bool e = true;
+    if (criteria["12th"] > Student.student['12th']) {
+      e = false;
+
+      studentEligibility = false;
+    }
+    return ListTile(
+      leading: e
+          ? Icon(
+              Icons.check_circle,
+              color: Colors.green,
+            )
+          : Icon(
+              Icons.disabled_by_default,
+              color: Colors.red,
+            ),
+      title: Text("Twelvth"),
+      subtitle: Text(
+        criteria["12th"].toString(),
+      ),
+    );
+  }
+
+  Widget tenth(var criteria) {
+    if (criteria["10th"] == 0) {
+      return Container();
+    }
+    bool e = true;
+    if (criteria["10th"] > Student.student['10th']) {
+      e = false;
+      studentEligibility = false;
+    }
+
+    return ListTile(
+      leading: e
+          ? Icon(
+              Icons.check_circle,
+              color: Colors.green,
+            )
+          : Icon(
+              Icons.disabled_by_default,
+              color: Colors.red,
+            ),
+      title: Text("Tenth"),
+      subtitle: Text(
+        criteria["10th"].toString(),
+      ),
+    );
+  }
+
+  Widget allowedGenders(var criteria) {
+    if (criteria["allowedGenders"] == null) {
+      return Container();
+    }
+    bool e = true;
+    if (!criteria["allowedGenders"]
+        .split(",")
+        .contains(Student.student['gender'])) {
+      e = false;
+      studentEligibility = false;
+    }
+
+    return ListTile(
+      leading: e
+          ? Icon(
+              Icons.check_circle,
+              color: Colors.green,
+            )
+          : Icon(
+              Icons.disabled_by_default,
+              color: Colors.red,
+            ),
+      title: Text("Genders"),
+      subtitle: Text(
+        criteria["allowedGenders"].toString(),
+      ),
+    );
+  }
+
+  Widget allowedBranches(var criteria) {
+    if (criteria["allowedBranches"] == null) {
+      return Container();
+    }
+    bool e = true;
+    if (!criteria["allowedBranches"]
+        .split(",")
+        .contains(Student.student['branch'])) {
+      e = false;
+      studentEligibility = false;
+    }
+
+    return ListTile(
+      leading: e
+          ? Icon(
+              Icons.check_circle,
+              color: Colors.green,
+            )
+          : Icon(
+              Icons.disabled_by_default,
+              color: Colors.red,
+            ),
+      title: Text("Branches"),
+      subtitle: Text(
+        criteria["allowedBranches"].toString(),
+      ),
+    );
+  }
+
+  Widget allowedPrograms(var criteria) {
+    if (criteria["allowedPrograms"] == null) {
+      return Container();
+    }
+    bool e = true;
+    if (!criteria["allowedPrograms"]
+        .split(",")
+        .contains(Student.student['programme'])) {
+      e = false;
+      studentEligibility = false;
+    }
+
+    return ListTile(
+      leading: e
+          ? Icon(
+              Icons.check_circle,
+              color: Colors.green,
+            )
+          : Icon(
+              Icons.disabled_by_default,
+              color: Colors.red,
+            ),
+      title: Text("Programs"),
+      subtitle: Text(
+        criteria["allowedPrograms"].toString(),
+      ),
+    );
   }
 
   Padding rowDisplay(

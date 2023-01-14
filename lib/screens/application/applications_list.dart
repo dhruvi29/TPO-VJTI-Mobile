@@ -18,7 +18,7 @@ class _ApplicationListState extends State<ApplicationList> {
   Future<void> readData() async {
     final data = await supabase.from('Applications').select('''
       *,
-      Job_Details(id,title,noOfRounds,companyName) ''').match({/* match student id here */});
+      Job_Details(id,title,noOfRounds,companyName) ''').match({/* match Student.student id here */});
     print(data);
     return data;
   }

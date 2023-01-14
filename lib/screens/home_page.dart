@@ -18,11 +18,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<void> getUserData ()async {
+
       final data = await supabase
         .from('Students')
-        .select('''*''').match({'id': '0173a65e-ac39-405c-8a92-e2fa1d6d49cb'});
-    student = data[0];
+        .select('''*''').match({'id': user!.id});
+    print("**********************************************************");
+    print(user!.id);
     print(data);
+    Student.student = data[0];
+    print("criteria");
     return data[0];
 }
   @override

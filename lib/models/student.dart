@@ -1,1 +1,4 @@
-dynamic student;
+class Student{
+static dynamic student;
+  
+}

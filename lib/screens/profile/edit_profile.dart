@@ -24,6 +24,7 @@ class _EditProfileState extends State<EditProfile> {
         title: Text('Edit Resume'),
       ),
 
+ 
       body: Column(children: [
         // EditField(TextInputType.emailAddress,"Personal Email",Icons.email,(val){
         //   student1.email = val;
