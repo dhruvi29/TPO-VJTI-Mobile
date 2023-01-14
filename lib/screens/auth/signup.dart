@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:supa_test/screens/auth/signin.dart';
 import 'package:supa_test/screens/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
+
+  static const id = "signup"; 
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
@@ -55,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBox(
                               height: 70.0,
                               child: Image.asset(
-                                "assets/images/logo.png",
+                                "assets/logo.png",
                               ),
                             ),
                             Padding(
@@ -205,7 +208,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushReplacementNamed(context, '/');
+                                Navigator.pushReplacementNamed(context, SignIn.id);
                               },
                               child: Container(
                                 width: 212,
@@ -257,6 +260,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final response = await Supabase.instance.client.auth.signUp(
         email: emailController.text,password: passwordController.text,
         );
+        
     if (response.user == null) {
       final snackbar = const SnackBar(content: Text("Error"));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);

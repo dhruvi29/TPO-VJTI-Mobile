@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           Calender.id: (context)=>Calender(),
           SignIn.id: (context)=>SignIn(),
           Decision.id: (context)=>Decision(),
-          // SignUpScreen.id: (context)=>SignUpScreen(),
+          SignUpScreen.id: (context)=>SignUpScreen(),
         },
       ),
     );
