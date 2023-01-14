@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:supa_test/models/student.dart';
 import 'package:supa_test/screens/profile/edit_profile.dart';
 import 'package:supa_test/shared/list_tile.dart';
 import 'package:supa_test/shared/profile_appbar.dart';
@@ -23,6 +24,7 @@ class _StudentProfileState extends State<StudentProfile> {
     final data = await supabase
         .from('Students')
         .select('''*''').match({'id': '0173a65e-ac39-405c-8a92-e2fa1d6d49cb'});
+    student = data[0];
     print(data);
     return data;
   }

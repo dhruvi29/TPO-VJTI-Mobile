@@ -260,6 +260,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final response = await Supabase.instance.client.auth.signUp(
         email: emailController.text,password: passwordController.text,
         );
+        
     if (response.user == null) {
       final snackbar = const SnackBar(content: Text("Error"));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);

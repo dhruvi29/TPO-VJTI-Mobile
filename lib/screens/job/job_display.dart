@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:supa_test/models/User.dart';
+import 'package:supa_test/models/student.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../shared/list_tile.dart';
@@ -14,10 +16,12 @@ class JobProfile extends StatefulWidget {
   State<JobProfile> createState() => _JobProfileState();
 }
 
+
 class _JobProfileState extends State<JobProfile> {
   Future<void> readData(int id_) async {
     final data = await supabase.from('Job_Details').select('''
       *''').match({'id': id_});
+      print(student);
     return data;
   }
 
@@ -107,10 +111,13 @@ class _JobProfileState extends State<JobProfile> {
             var criteria = snapshot.data[0];
             return Column(
               children: [
+                
                 criteria["10th"]==0?Container():ListTile(
                   leading: Icon(Icons.check_circle),
                   title: Text("Tenth"),
-                  subtitle: Text(criteria["10th"].toString()),
+                  subtitle: Text(criteria["10th"].toString(),
+                  
+                  ),
                 ),
                 criteria["12th"]==0?Container():ListTile(
                   leading: Icon(Icons.check_circle),
