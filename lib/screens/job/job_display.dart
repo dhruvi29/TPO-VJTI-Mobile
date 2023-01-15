@@ -82,46 +82,8 @@ class _JobProfileState extends State<JobProfile> {
                         data['salary'].toString(), Icons.currency_rupee),
                     const Divider(),
                     rowDisplay(context, "Eligibility", "", Icons.person),
-                    eligibility(jobId),
-                    SizedBox(
-                        width: double.infinity,
-                        child: Container(
-                          padding: const EdgeInsets.all(15.0),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              //TODO Add application row in db
-                              Navigator.pushReplacementNamed(
-                                  context, EditApplication.id);
-                              // print("==========");
-                              // dynamic dataList = readApplications(
-                              //     2, "77fc94b0-7c9a-423a-bb09-a05bfb2b9bf");
-                              // print(dataList);
-                              // print("==========");
-                              // createApplication(
-                              //     jobId: jobId,
-                              //     studentId:
-                              //         '77fc94b0-7c9a-423a-bb09-a05bfb2b9bfe',
-                              //     resumeLink:
-                              //         "https://docs.google.com/document/d/1CNkznkHiSqI1zSHLY-NRZy0MgXhDHg-RDPe5EuJqwQk/edit");
-                              // final response =
-                              //     await supabase!.from('Applications').insert({
-                              //   jobId: 4,
-                              //   studentId:
-                              //       '77fc94b0-7c9a-423a-bb09-a05bfb2b9bfe',
-                              //   resumeLink:
-                              //       "https://docs.google.com/document/d/1CNkznkHiSqI1zSHLY-NRZy0MgXhDHg-RDPe5EuJqwQk/edit"
-                              // });
-                            },
-                            child: Text(
-                              'Apply Now',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.pink)),
-                          ),
-                        ))
+                    eligibility(data['title'],data['companyName'],jobId),
+                    
                   ],
                 ),
               ),
@@ -133,12 +95,12 @@ class _JobProfileState extends State<JobProfile> {
 
   Future<void> readEligility(int id_) async {
     final data = await supabase.from('Job_Requirements').select('''
-      *''').match({'jobId': 15});
+      *''').match({'jobId': 2});
     print(data);
     return data;
   }
 
-  FutureBuilder<void> eligibility(int jobId) {
+  FutureBuilder<void> eligibility(String title,String companyName, int jobId) {
     return FutureBuilder(
         future: readEligility(jobId),
         builder: ((context, AsyncSnapshot snapshot) {
@@ -158,7 +120,9 @@ class _JobProfileState extends State<JobProfile> {
                         child: Container(
                           padding: const EdgeInsets.all(15.0),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: studentEligibility? () {
+                              Navigator.pushReplacementNamed(context, EditApplication.id,arguments: jobId);
+                            }:null,
                             child: Text(
                               studentEligibility?'Apply Now':'Not Eligible',
                               style:

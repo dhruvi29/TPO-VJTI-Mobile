@@ -12,7 +12,7 @@ class ApplicationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.pushNamed(context, ApplicationDisplay.id),
+      // onTap: () => Navigator.pushNamed(context, ApplicationDisplay.id),
       child: Card(
         elevation: 10,
         child: ListTile(

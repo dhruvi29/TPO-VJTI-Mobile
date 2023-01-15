@@ -43,7 +43,7 @@ class JobCard extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, EditApplication.id);
+                    // Navigator.pushNamed(context, EditApplication.id,arguments: id);
                   },
                   style: ButtonStyle(
                       backgroundColor:

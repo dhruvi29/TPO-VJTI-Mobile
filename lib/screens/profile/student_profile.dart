@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:supa_test/models/User.dart';
 import 'package:supa_test/screens/profile/edit_profile.dart';
 import 'package:supa_test/shared/list_tile.dart';
 import 'package:supa_test/shared/profile_appbar.dart';
@@ -22,7 +23,7 @@ class _StudentProfileState extends State<StudentProfile> {
   Future<void> readData() async {
     final data = await supabase
         .from('Students')
-        .select('''*''').match({'id': '0173a65e-ac39-405c-8a92-e2fa1d6d49cb'});
+        .select('''*''').match({'id': user!.id});
     print(data);
     return data;
   }
@@ -182,7 +183,7 @@ class _StudentProfileState extends State<StudentProfile> {
                   ],
                 )));
           }
-          return Scaffold(body: const CircularProgressIndicator());
+          return Scaffold(body: Center(child: const CircularProgressIndicator()));
         });
   }
 }

@@ -23,9 +23,9 @@ class ProfileAppBar extends StatelessWidget with PreferredSizeWidget {
         preferredSize: const Size.fromHeight(250),
         child: Column(
           children: [
-            const SizedBox(height: 10),
+            // const SizedBox(height: 10),
             Center(
-                child: CircularImage(size: 100.00, imgPath: student1.picLink)),
+                child: CircleAvatar(radius: 50,backgroundColor: Colors.white,child: Text("${firstName[0]}${lastName[0]}",style: TextStyle(fontSize: 40),),)),
             const SizedBox(height: 40),
           ],
         ),

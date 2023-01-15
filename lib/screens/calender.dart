@@ -37,7 +37,7 @@ class _CalenderState extends State<Calender> {
         stream: _stream,
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return CircularProgressIndicator();
+            return Scaffold(body: Center(child: CircularProgressIndicator()));
           } else {
             var roundData = snapshot.data;
             var event_len = roundData?.length;

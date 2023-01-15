@@ -4,7 +4,7 @@ class EditField extends StatelessWidget {
 
   final keyboardType,labelText,prefixIcon,onChange,initialValue,enable;
 
-  const EditField(this.keyboardType,this.labelText,this.prefixIcon,this.onChange,{this.enable = true,this.initialValue
+  const EditField(this.keyboardType,this.labelText,this.prefixIcon,this.onChange,{this.enable = true,this.initialValue 
   }) ;
 
   @override
@@ -22,7 +22,7 @@ class EditField extends StatelessWidget {
           prefixIcon: Icon(prefixIcon),
           border: const OutlineInputBorder()
         ),
-        // initialValue: "",
+        initialValue: initialValue,
         onChanged: onChange,
       ),
     );

@@ -4,10 +4,12 @@ import 'package:supa_test/screens/calender.dart';
 import 'package:supa_test/screens/job/job_display.dart';
 import 'package:supa_test/screens/job/jobs_list.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
 
 import '../models/profile_details.dart';
 import '../screens/auth/signin.dart';
-import '../screens/profile/student_profile.dart';
+import '../models/student.dart' as s;
 import '../shared/circular_image.dart';
 import '../shared/list_tile.dart';
 
@@ -21,12 +23,12 @@ Widget myHeaderDrawer(BuildContext context) {
     padding: const EdgeInsets.only(top: 60),
     child: Column(
       children: [
-        CircularImage(size: 100, imgPath: student1.picLink),
-        Text(student1.name ?? "User"),
+        CircleAvatar(backgroundColor: Colors.white, child: Text("${s.Student.student['firstName'][0]}${s.Student.student['lastName'][0]}")),
+        Text("${s.Student.student['firstName']} ${s.Student.student['lastName']}"),
         TextButton(
             onPressed: (() {
               Navigator.pop(context);
-              Navigator.pushNamed(context, StudentProfile.id);
+              Navigator.pushNamed(context, s.Student.student.id);
             }),
             child: const Text("View Profile",
                 style: TextStyle(color: Colors.white)))
@@ -48,7 +50,14 @@ Widget myDrawerList(BuildContext context) {
         const Divider(),
         CustomListTile(icon: Icons.calendar_month,titleString: "Schedule",onPressed: ()=>Navigator.pushNamed(context, Calender.id,)),
         const Divider(),
-        CustomListTile(icon: Icons.add_reaction,titleString: "Past Experiences"),
+        CustomListTile(icon: Icons.add_reaction,titleString: "Past Experiences",onPressed: () async {
+                          try {
+                            await launchUrlString(
+                                "https://drive.google.com/drive/folders/1BCKFtr9FWDI0iJ74bTYJdsYS74uKBq98?usp=sharing");
+                          } catch (err) {
+                            debugPrint('Something bad happened');
+                          }
+                        },),
         const Divider(),
         CustomListTile(icon: Icons.logout,titleString: "Logout",onPressed: (){
           supabase.auth.signOut();
