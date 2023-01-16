@@ -12,8 +12,7 @@ class Decision extends StatelessWidget {
   Widget build(BuildContext context) {
     user = Supabase.instance.client.auth.currentUser;
 
-    print(user);
 
-    return user == null?SignIn():MyHomePage();
+    return user == null?SignIn():const MyHomePage();
   }
 }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:supa_test/models/profile_details.dart';
 import 'package:supa_test/screens/application/applications_list.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/User.dart';
 import '../../models/student.dart' as s;
-import '../../components/edit_field.dart';
+import '../../widgets/edit_field.dart';
 // import '../calender.dart';
 
 class EditApplication extends StatefulWidget {

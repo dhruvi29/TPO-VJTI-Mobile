@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../components/job_card.dart';
-import '../../components/job_widget.dart';
+import 'package:supa_test/widgets/job_card.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -21,8 +20,6 @@ class _AllJobsState extends State<AllJobs> {
     RealtimeListenTypes.postgresChanges,
     ChannelFilter(event: '*', schema: '*'),
     (payload, [ref]) {
-      print('hello');
-      print('Change received: ${payload.toString()}');
     },
   ).subscribe();
 
@@ -47,7 +44,6 @@ class _AllJobsState extends State<AllJobs> {
             return ListView.builder(
                 itemCount: jobLen,
                 itemBuilder: (context, index) {
-                  // print(jobList[index]);
                   return JobCard(
                     jobList[index]['title'],
                     jobList[index]['companyName'],

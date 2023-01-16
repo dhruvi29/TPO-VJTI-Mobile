@@ -18,8 +18,6 @@ class _CalenderState extends State<Calender> {
     RealtimeListenTypes.postgresChanges,
     ChannelFilter(event: '*', schema: '*'),
     (payload, [ref]) {
-      // print('hello');
-      // print('Change received: ${payload.toString()}');
     },
   ).subscribe();
 
@@ -81,7 +79,6 @@ class _CalenderState extends State<Calender> {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                                 onTap: () {
-                                  print("Click event on Container");
                                 },
                                 child: Container(
                                   height: 50,
@@ -116,12 +113,8 @@ class _CalenderState extends State<Calender> {
                           ],
                         ));
               },
-              // onEventTap: (event, date) => print(event),
-              // onDateLongPress: (date) => print(date),
             );
           }
-          // print("hellooooooooo");
-          // print(snapshot.data);
         },
       ),
     );

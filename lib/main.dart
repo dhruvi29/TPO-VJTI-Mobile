@@ -1,6 +1,6 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:supa_test/screens/application/application_display.dart';
+
 import 'package:supa_test/screens/application/application_edit.dart';
 import 'package:supa_test/screens/application/applications_list.dart';
 import 'package:supa_test/screens/auth/signin.dart';
@@ -11,9 +11,8 @@ import 'package:supa_test/screens/job/job_display.dart';
 import 'package:supa_test/screens/job/jobs_list.dart';
 import 'package:supa_test/screens/profile/student_profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'screens/auth/signup.dart';
-import 'screens/profile/edit_profile.dart';
+import 'package:supa_test/screens/auth/signup.dart';
+import 'package:supa_test/screens/profile/edit_profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,21 +40,19 @@ class MyApp extends StatelessWidget {
             iconTheme: const IconThemeData(color: Colors.amber)),
         initialRoute: Decision.id,
         routes: {
-          MyHomePage.id: (context) => MyHomePage(),
-          StudentProfile.id : (context) => StudentProfile(),
-          EditProfile.id : (context) => EditProfile(),
+          MyHomePage.id: (context) => const MyHomePage(),
+          StudentProfile.id: (context) => StudentProfile(),
+          EditProfile.id: (context) => EditProfile(),
           JobProfile.id: (context) => JobProfile(),
-          AllJobs.id: (context) => AllJobs(),
-          ApplicationDisplay.id: (context) => ApplicationDisplay(),
-          ApplicationList.id: (context) => ApplicationList(),
+          AllJobs.id: (context) => const AllJobs(),
+          ApplicationList.id: (context) => const ApplicationList(),
           EditApplication.id: (context) => EditApplication(),
-          Calender.id: (context)=>Calender(),
-          SignIn.id: (context)=>SignIn(),
-          Decision.id: (context)=>Decision(),
-          SignUpScreen.id: (context)=>SignUpScreen(),
+          Calender.id: (context) => const Calender(),
+          SignIn.id: (context) => SignIn(),
+          Decision.id: (context) => const Decision(),
+          SignUpScreen.id: (context) => const SignUpScreen(),
         },
       ),
     );
   }
 }
-

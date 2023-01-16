@@ -1,4 +1,4 @@
-//Kushal
+//Kushal's UI
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +12,6 @@ class ItemWidget extends StatelessWidget {
     var parsedDate = DateTime.parse(item['endDateToApply']);
     return InkWell(
         onTap: () {
-          print("Click event on Container");
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

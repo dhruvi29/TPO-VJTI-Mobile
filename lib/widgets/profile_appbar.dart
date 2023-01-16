@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supa_test/shared/circular_image.dart';
+import 'package:supa_test/widgets/circular_image.dart';
 
-import '../models/profile_details.dart';
 import '../screens/profile/edit_profile.dart';
 
 class ProfileAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -18,7 +17,7 @@ class ProfileAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      title: Text('${firstName} ${midName} ${lastName}'),
+      title: Text('$firstName $midName $lastName'),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(250),
         child: Column(

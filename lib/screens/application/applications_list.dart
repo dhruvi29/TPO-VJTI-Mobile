@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supa_test/screens/application/application_display.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../components/application_card.dart';
+import '../../widgets/application_card.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -19,7 +18,6 @@ class _ApplicationListState extends State<ApplicationList> {
     final data = await supabase.from('Applications').select('''
       *,
       Job_Details(id,title,noOfRounds,companyName) ''').match({/* match Student.student id here */});
-    print(data);
     return data;
   }
 

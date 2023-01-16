@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../models/student.dart';
-import '../../shared/list_tile.dart';
-import '../application/application_edit.dart';
+import 'package:supa_test/models/student.dart';
+import 'package:supa_test/screens/application/application_edit.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -17,14 +16,6 @@ class JobProfile extends StatefulWidget {
 }
 
 class _JobProfileState extends State<JobProfile> {
-  // Future createApplication({
-  //   required final int jobId,
-  //   required final String studentId,
-  //   required final String resumeLink,
-  // }) async {
-  //   PostgrestResponse? response = await supabase.from('Applications').insert(
-  //       {"jobId": jobId, "studentId": studentId, "resumeLink": resumeLink});
-  // }
 
   Future<void> readData(int id_) async {
     final data = await supabase.from('Job_Details').select('''
@@ -36,18 +27,12 @@ class _JobProfileState extends State<JobProfile> {
 
   @override
   Widget build(BuildContext context) {
-    double c_width = MediaQuery.of(context).size.width * 0.9 - 60;
     final jobId = ModalRoute.of(context)!.settings.arguments as int;
-    // final studentId = ModalRoute.of(context)!.settings.arguments as int;
-    // final resumeLink = "test";
     return FutureBuilder(
         future: readData(jobId),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             var data = snapshot.data[0];
-            print(data);
-            // int len = data.length;
-            // return Container();
             return Scaffold(
               appBar: AppBar(
                   leading: Padding(
@@ -96,8 +81,6 @@ class _JobProfileState extends State<JobProfile> {
   Future<void> readEligility(int id_) async {
     final data = await supabase.from('Job_Requirements').select('''
       *''').match({'jobId': 2});
-    print(data);
-    return data;
   }
 
   FutureBuilder<void> eligibility(String title,String companyName, int jobId) {
@@ -126,16 +109,13 @@ class _JobProfileState extends State<JobProfile> {
                             child: Text(
                               studentEligibility?'Apply Now':'Not Eligible',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                                  const TextStyle(color: Colors.white, fontSize: 20),
                             ),
                             style: ButtonStyle(
                                 backgroundColor:
-                            
                                     MaterialStateProperty.all(studentEligibility?Colors.pink:Colors.grey)),
                           ),
                         ))
-                // setEligibility(),
-                // Text(studentEligibility ? "Eligible" : "Not Eligible"),
               ],
             );
           }
@@ -155,15 +135,15 @@ class _JobProfileState extends State<JobProfile> {
     }
     return ListTile(
       leading: e
-          ? Icon(
+          ? const Icon(
               Icons.check_circle,
               color: Colors.green,
             )
-          : Icon(
+          : const Icon(
               Icons.disabled_by_default,
               color: Colors.red,
             ),
-      title: Text("Backlogs"),
+      title: const Text("Backlogs"),
       subtitle: Text(
         criteria["backlogs"].toString(),
       ),
@@ -171,8 +151,6 @@ class _JobProfileState extends State<JobProfile> {
   }
 
   Widget cpi(var criteria) {
-    print("33333333333333333333");
-    print(criteria);
     if (criteria["cpi"] == Null || criteria["cpi"] == 0) {
       return Container();
     }
@@ -184,15 +162,15 @@ class _JobProfileState extends State<JobProfile> {
     }
     return ListTile(
       leading: e
-          ? Icon(
+          ? const Icon(
               Icons.check_circle,
               color: Colors.green,
             )
-          : Icon(
+          : const Icon(
               Icons.disabled_by_default,
               color: Colors.red,
             ),
-      title: Text("CPI"),
+      title: const Text("CPI"),
       subtitle: Text(
         criteria["cpi"].toString(),
       ),
@@ -211,15 +189,15 @@ class _JobProfileState extends State<JobProfile> {
     }
     return ListTile(
       leading: e
-          ? Icon(
+          ? const Icon(
               Icons.check_circle,
               color: Colors.green,
             )
-          : Icon(
+          : const Icon(
               Icons.disabled_by_default,
               color: Colors.red,
             ),
-      title: Text("Twelvth"),
+      title: const Text("Twelvth"),
       subtitle: Text(
         criteria["12th"].toString(),
       ),
@@ -238,11 +216,11 @@ class _JobProfileState extends State<JobProfile> {
 
     return ListTile(
       leading: e
-          ? Icon(
+          ? const Icon(
               Icons.check_circle,
               color: Colors.green,
             )
-          : Icon(
+          : const Icon(
               Icons.disabled_by_default,
               color: Colors.red,
             ),
@@ -267,15 +245,15 @@ class _JobProfileState extends State<JobProfile> {
 
     return ListTile(
       leading: e
-          ? Icon(
+          ? const Icon(
               Icons.check_circle,
               color: Colors.green,
             )
-          : Icon(
+          : const Icon(
               Icons.disabled_by_default,
               color: Colors.red,
             ),
-      title: Text("Genders"),
+      title: const Text("Genders"),
       subtitle: Text(
         criteria["allowedGenders"].toString(),
       ),
@@ -296,15 +274,15 @@ class _JobProfileState extends State<JobProfile> {
 
     return ListTile(
       leading: e
-          ? Icon(
+          ? const Icon(
               Icons.check_circle,
               color: Colors.green,
             )
-          : Icon(
+          : const Icon(
               Icons.disabled_by_default,
               color: Colors.red,
             ),
-      title: Text("Branches"),
+      title: const Text("Branches"),
       subtitle: Text(
         criteria["allowedBranches"].toString(),
       ),
@@ -325,15 +303,15 @@ class _JobProfileState extends State<JobProfile> {
 
     return ListTile(
       leading: e
-          ? Icon(
+          ? const Icon(
               Icons.check_circle,
               color: Colors.green,
             )
-          : Icon(
+          : const Icon(
               Icons.disabled_by_default,
               color: Colors.red,
             ),
-      title: Text("Programs"),
+      title: const Text("Programs"),
       subtitle: Text(
         criteria["allowedPrograms"].toString(),
       ),
@@ -342,7 +320,7 @@ class _JobProfileState extends State<JobProfile> {
 
   Padding rowDisplay(
       BuildContext context, String supTitle, String title, IconData icon_) {
-    double c_width = MediaQuery.of(context).size.width * 0.9 - 60;
+    double cWidth = MediaQuery.of(context).size.width * 0.9 - 60;
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Row(
@@ -359,7 +337,7 @@ class _JobProfileState extends State<JobProfile> {
           ),
           Container(
             padding: const EdgeInsets.all(8.0),
-            width: c_width,
+            width: cWidth,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -25,8 +25,6 @@ class _SignInState extends State<SignIn> {
     );
     // final Session? session = response.session;
     user = response.user;
-    print("hello");
-    print(user?.id);
 Navigator.pushReplacementNamed(context, MyHomePage.id);
 
   }

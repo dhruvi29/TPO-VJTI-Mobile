@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:supa_test/screens/application/application_display.dart';
 
 class ApplicationCard extends StatelessWidget {
 
@@ -27,7 +26,7 @@ class ApplicationCard extends StatelessWidget {
           trailing: ClipRRect(
         borderRadius: BorderRadius.circular(20.0), //or 15.0
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           color: const Color(0xffFF0E58),
           child: Text(
     status,
