@@ -81,6 +81,7 @@ class _JobProfileState extends State<JobProfile> {
   Future<void> readEligility(int id_) async {
     final data = await supabase.from('Job_Requirements').select('''
       *''').match({'jobId': 2});
+    return data;
   }
 
   FutureBuilder<void> eligibility(String title,String companyName, int jobId) {
