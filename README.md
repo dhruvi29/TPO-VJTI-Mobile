@@ -14,3 +14,8 @@ abstract class SupabaseConstants {
   );
 }
 ```
+
+Define the variables when you run the app as follows:
+```
+flutter run lib/main.dart --dart-define=SUPABASE_URL=url --dart-define=SUPABASE_ANNON_KEY=key
+```
