@@ -1,5 +1,12 @@
 # TPO VJTI Mobile App
+* You can find the corresponding web app [here](https://github.com/PranitRohokale/TPO-Code_miners)
+* App:
+    * Student Interface
+* Web: 
+    * Admin Interface
+    * Recruiter Interface
 
+# Installation    
 lib > constants > supabase_keys.dart
 ``` dart
 abstract class SupabaseConstants {
