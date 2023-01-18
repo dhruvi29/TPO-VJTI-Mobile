@@ -1,16 +1,16 @@
-# supa_test
+# TPO VJTI Mobile App
 
-A new Flutter project.
+lib > constants > supabase_keys.dart
+``` dart
+abstract class SupabaseConstants {
+  static const String supabaseUrl = String.fromEnvironment(
+    'SUPABASE_URL',
+    defaultValue: 'https://wcuxprabdbhvzollnbig.supabase.co',
+  );
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  static const String supabaseAnnonKey = String.fromEnvironment(
+    'SUPABASE_ANNON_KEY',
+    defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjdXhwcmFiZGJodnpvbGxuYmlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzM1MDQzMTksImV4cCI6MTk4OTA4MDMxOX0.EmAexP2N21D0SuusipypvkU_n11cc_W3VuNqOS6ccro',
+  );
+}
+```
