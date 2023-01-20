@@ -16,7 +16,6 @@ class JobProfile extends StatefulWidget {
 }
 
 class _JobProfileState extends State<JobProfile> {
-
   Future<void> readData(int id_) async {
     final data = await supabase.from('Job_Details').select('''
       *''').match({'id': id_});
@@ -67,8 +66,7 @@ class _JobProfileState extends State<JobProfile> {
                         data['salary'].toString(), Icons.currency_rupee),
                     const Divider(),
                     rowDisplay(context, "Eligibility", "", Icons.person),
-                    eligibility(data['title'],data['companyName'],jobId),
-                    
+                    eligibility(data['title'], data['companyName'], jobId),
                   ],
                 ),
               ),
@@ -80,11 +78,11 @@ class _JobProfileState extends State<JobProfile> {
 
   Future<void> readEligility(int id_) async {
     final data = await supabase.from('Job_Requirements').select('''
-      *''').match({'jobId': 2});
+      *''').match({'jobId': id_});
     return data;
   }
 
-  FutureBuilder<void> eligibility(String title,String companyName, int jobId) {
+  FutureBuilder<void> eligibility(String title, String companyName, int jobId) {
     return FutureBuilder(
         future: readEligility(jobId),
         builder: ((context, AsyncSnapshot snapshot) {
@@ -100,23 +98,29 @@ class _JobProfileState extends State<JobProfile> {
                 allowedGenders(criteria),
                 allowedPrograms(criteria),
                 SizedBox(
-                        width: double.infinity,
-                        child: Container(
-                          padding: const EdgeInsets.all(15.0),
-                          child: ElevatedButton(
-                            onPressed: studentEligibility? () {
-                              Navigator.pushReplacementNamed(context, EditApplication.id,arguments: jobId);
-                            }:null,
-                            child: Text(
-                              studentEligibility?'Apply Now':'Not Eligible',
-                              style:
-                                  const TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(studentEligibility?Colors.pink:Colors.grey)),
-                          ),
-                        ))
+                    width: double.infinity,
+                    child: Container(
+                      padding: const EdgeInsets.all(15.0),
+                      child: ElevatedButton(
+                        onPressed: studentEligibility
+                            ? () {
+                                Navigator.pushReplacementNamed(
+                                    context, EditApplication.id,
+                                    arguments: jobId);
+                              }
+                            : null,
+                        child: Text(
+                          studentEligibility ? 'Apply Now' : 'Not Eligible',
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 20),
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                studentEligibility
+                                    ? Colors.pink
+                                    : Colors.grey)),
+                      ),
+                    ))
               ],
             );
           }
