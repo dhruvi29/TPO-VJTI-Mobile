@@ -1,6 +1,6 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:supa_test/constants/supabase_keys.dart';
+// import 'package:supa_test/constants/supabase_keys.dart';
 
 import 'package:supa_test/screens/application/application_edit.dart';
 import 'package:supa_test/screens/application/applications_list.dart';
@@ -18,9 +18,9 @@ import 'package:supa_test/screens/profile/edit_profile.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-      url: SupabaseConstants.supabaseUrl,
+      url: 'https://wcuxprabdbhvzollnbig.supabase.co',
       anonKey:
-          SupabaseConstants.supabaseAnnonKey,
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjdXhwcmFiZGJodnpvbGxuYmlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzM1MDQzMTksImV4cCI6MTk4OTA4MDMxOX0.EmAexP2N21D0SuusipypvkU_n11cc_W3VuNqOS6ccro',
       debug: true // optional
       );
   runApp(const MyApp());

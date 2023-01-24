@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:supa_test/models/User.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../widgets/application_card.dart';
+import '../../models/student.dart' as s;
 
 final supabase = Supabase.instance.client;
 
@@ -15,11 +17,19 @@ class ApplicationList extends StatefulWidget {
 
 class _ApplicationListState extends State<ApplicationList> {
   Future<void> readData() async {
+    print(s.Student.student);
     final data = await supabase.from('Applications').select('''
       *,
-      Job_Details(id,title,noOfRounds,companyName) ''').match({/* match Student.student id here */});
+      Job_Details(id,title,noOfRounds,companyName) ''').match({
+      'studentId': s.Student.student['id']
+    });
     return data;
   }
+
+  static const application_status = {
+    'text': {-1: "Rejected", 0: "In Progress", 1: "Selected"},
+    'color': {-1: Colors.red, 0: Colors.amber, 1: Colors.green}
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +48,13 @@ class _ApplicationListState extends State<ApplicationList> {
             return ListView.builder(
               itemCount: len,
               itemBuilder: (context, index) {
+                var s = data[index] ?? {};
                 return ApplicationCard(
-                    title: data[index]['Job_Details']['title'],
-                    companyName: data[index]['Job_Details']['companyName'],
-                    status: "In Progress");
+                  title: s['Job_Details']['title'],
+                  companyName: s['Job_Details']['companyName'],
+                  status: application_status['text']![s['selectionStatus']],
+                  color: application_status['color']![s['selectionStatus']],
+                );
               },
             );
           }

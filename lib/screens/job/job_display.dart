@@ -90,7 +90,7 @@ class _JobProfileState extends State<JobProfile> {
             var criteria = snapshot.data[0];
             return Column(
               children: [
-                tenth(criteria),
+                tenth(criteria, jobId),
                 twelvth(criteria),
                 cpi(criteria),
                 backlogs(criteria),
@@ -209,11 +209,27 @@ class _JobProfileState extends State<JobProfile> {
     );
   }
 
-  Widget tenth(var criteria) {
+  Widget tenth(var criteria, int jobId) {
     if (criteria["10th"] == 0) {
       return Container();
     }
     bool e = true;
+    final data3 = supabase
+        .from('Applications')
+        .stream(primaryKey: ['id'])
+        .eq("studentId", Student.student['id'])
+        .listen((List<Map<String, dynamic>> data) {
+          for (Map<String, dynamic> appli in data) {
+            if (appli["jobId"] == jobId) {
+              print("Already Applied");
+              studentEligibility = false;
+              print("isdbsahdsa");
+              print(studentEligibility);
+              print("isdbsahdsa");
+            }
+          }
+        });
+
     if (criteria["10th"] > Student.student['10th']) {
       e = false;
       studentEligibility = false;
