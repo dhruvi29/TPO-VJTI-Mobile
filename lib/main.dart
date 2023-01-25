@@ -8,7 +8,7 @@ import 'package:supa_test/screens/application/application_edit.dart';
 import 'package:supa_test/screens/application/applications_list.dart';
 import 'package:supa_test/screens/auth/signin.dart';
 import 'package:supa_test/screens/calender.dart';
-import 'package:supa_test/screens/decision.dart';
+import 'package:supa_test/wrapper.dart';
 import 'package:supa_test/screens/home_page.dart';
 import 'package:supa_test/screens/job/job_display.dart';
 import 'package:supa_test/screens/job/jobs_list.dart';

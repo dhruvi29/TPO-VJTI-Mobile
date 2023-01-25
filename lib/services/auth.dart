@@ -36,7 +36,7 @@ class AuthService {
     try {
       AuthResponse response =
           await _auth.signUp(email: email, password: password);
-      return _userFromSupabaseUser(response.user!);
+      return response;
     } catch (e) {
       return null;
     }

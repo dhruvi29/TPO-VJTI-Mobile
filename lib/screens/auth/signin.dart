@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:supa_test/screens/auth/signup.dart';
 import 'package:supa_test/screens/home_page.dart';
+import 'package:supa_test/services/auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/User.dart';
 
 class SignIn extends StatefulWidget {
   static const id = "SignInScreen";
-  
+
   SignIn({Key? key}) : super(key: key);
 
   @override
@@ -15,18 +16,19 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-    TextEditingController emailController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  
-  onTapBtnSignin() async {
-    final response = await Supabase.instance.client.auth.signInWithPassword(
-      email: emailController.text,
-      password: passwordController.text,
-    );
-    // final Session? session = response.session;
-    user = response.user;
-Navigator.pushReplacementNamed(context, MyHomePage.id);
 
+  void onTapBtnSignin(context) async {
+    final response = await AuthService().signInWithEmailAndPassword(
+        emailController.text, passwordController.text);
+
+    if (response == null) {
+      SnackBar snackbar = const SnackBar(content: Text("Error"));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    } else {
+      Navigator.pushReplacementNamed(context, MyHomePage.id);
+    }
   }
 
   @override
@@ -176,7 +178,7 @@ Navigator.pushReplacementNamed(context, MyHomePage.id);
                             ),
                             GestureDetector(
                               onTap: () {
-                                onTapBtnSignin();
+                                onTapBtnSignin(context);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(
@@ -318,4 +320,3 @@ Navigator.pushReplacementNamed(context, MyHomePage.id);
     );
   }
 }
-

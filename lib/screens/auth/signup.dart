@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:supa_test/screens/auth/signin.dart';
 import 'package:supa_test/screens/home_page.dart';
+import 'package:supa_test/services/auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
-
-  static const id = "signup"; 
+  static const id = "signup";
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
@@ -208,7 +208,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushReplacementNamed(context, SignIn.id);
+                                Navigator.pushReplacementNamed(
+                                    context, SignIn.id);
                               },
                               child: Container(
                                 width: 212,
@@ -256,16 +257,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
   void onTapBtnSignUp(context) async {
-    final response = await Supabase.instance.client.auth.signUp(
-        email: emailController.text,password: passwordController.text,
-        );
-        
-    if (response.user == null) {
-      final snackbar = const SnackBar(content: Text("Error"));
+    final response = await AuthService().registerWithEmailAndPassword(
+        emailController.text, passwordController.text);
+    print(response);
+    if (response == null) {
+      SnackBar snackbar = const SnackBar(content: Text("Error"));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     } else {
-      Navigator.pushReplacementNamed(context, MyHomePage.id);
+      if (response.session == null) {
+        SnackBar snackbar =
+            const SnackBar(content: Text("Confirmation email sent! "));
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      } else {
+        Navigator.pushReplacementNamed(context, MyHomePage.id);
+      }
     }
   }
 
