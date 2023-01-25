@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:supa_test/models/student_user.dart';
+// import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -9,7 +11,9 @@ import 'package:supa_test/widgets/list_tile.dart';
 import 'package:supa_test/widgets/profile_appbar.dart';
 import 'package:supa_test/widgets/display_grade.dart';
 
-final supabase = Supabase.instance.client;
+import '../../constants/supabse_client.dart';
+
+
 
 class StudentProfile extends StatefulWidget {
   static const id = "StudentProfile";
@@ -30,6 +34,9 @@ class _StudentProfileState extends State<StudentProfile> {
 
   @override
   Widget build(BuildContext context) {
+    // StudentUser? userVar = Provider.of<StudentUser?>(context);
+    // print("ddddddddddddddd");
+    // print(userVar?.userID);
     return FutureBuilder<void>(
         future: readData(),
         builder: (context, AsyncSnapshot snapshot) {

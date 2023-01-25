@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:supa_test/models/student_user.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:supa_test/models/User.dart';
@@ -13,6 +15,7 @@ import 'package:supa_test/widgets/dashboard_item.dart';
 import 'package:supa_test/constants/supabse_client.dart' as supa;
 
 
+
 class MyHomePage extends StatefulWidget {
   static const id = "HomePage";
 
@@ -23,24 +26,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  Future<void> getUserData() async {
-    final data =
-        await supa.supabase.from('Students').select('''*''').match({'id': user!.id});
+  Future<void> getUserData(id) async {
+    final data = await supa.supabase
+        .from('Students')
+        .select('''*''').match({'id': id});
     Student.student = data[0];
     return data[0];
   }
 
   @override
   Widget build(BuildContext context) {
+    supa.supabase.auth.onAuthStateChange.listen((data) {
+    });
+    StudentUser userVar = Provider.of<StudentUser>(context);
+
     return Scaffold(
       appBar: myAppBar(context),
       body: FutureBuilder(
-        future: getUserData(),
+        future: getUserData(userVar.userID),
         builder: ((context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Container(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
               child: GridView.count(
                 crossAxisCount: 2,
                 padding: const EdgeInsets.all(3.0),
@@ -67,12 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       debugPrint('Something bad happened');
                     }
                   }),
-                  makeDashboardItem(
-                      "Search Jobs",
-                      Icons.search,
+                  makeDashboardItem("Search Jobs", Icons.search,
                       () => Navigator.pushNamed(context, AllJobs.id)),
-                  makeDashboardItem(
-                      "Announcements", Icons.announcement, null),
+                  makeDashboardItem("Announcements", Icons.announcement, null),
                 ],
               ),
             );
@@ -105,6 +110,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
   }
-
-
 }
