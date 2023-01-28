@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supa_test/screens/job/archived_joblist.dart';
+
 import 'package:supa_test/widgets/job_card.dart';
 
 final supabase = Supabase.instance.client;
 
-class AllJobs extends StatefulWidget {
-  static const id = "AllJobs";
-  const AllJobs({Key? key}) : super(key: key);
+class ArchivedJobList extends StatefulWidget {
+  static const id = "ArchivedJobList";
+  const ArchivedJobList({Key? key}) : super(key: key);
 
   @override
-  State<AllJobs> createState() => _AllJobsState();
+  State<ArchivedJobList> createState() => _ArchivedJobListState();
 }
 
-class _AllJobsState extends State<AllJobs> {
+class _ArchivedJobListState extends State<ArchivedJobList> {
   final streamR = supabase
       .channel('*')
       .on(
@@ -29,18 +29,7 @@ class _AllJobsState extends State<AllJobs> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Upcoming On Campus"),
-        actions: [
-          IconButton(
-              icon: const Icon(
-                IconData(0xe091, fontFamily: 'MaterialIcons'),
-                color: Colors.white,
-                semanticLabel: 'Archived',
-              ),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, ArchivedJobList.id);
-              })
-        ],
+        title: const Text("Previous Jobs On Campus"),
       ),
       body: StreamBuilder(
           stream: _stream,
@@ -50,11 +39,11 @@ class _AllJobsState extends State<AllJobs> {
 
               var jobLen = jobList?.length;
               jobLen ??= 0;
-
+              jobList.sort((a, b) => compare(a, b));
               return ListView.builder(
                   itemCount: jobLen,
                   itemBuilder: (context, index) {
-                    if (!(DateTime.parse(jobList[index]['endDateToApply'])
+                    if ((DateTime.parse(jobList[index]['endDateToApply'])
                         .toUtc()
                         .difference(DateTime.now().toUtc())
                         .isNegative)) {
@@ -77,12 +66,28 @@ class _AllJobsState extends State<AllJobs> {
                         // true
                       );
                     }
+                    ;
                     return SizedBox.shrink();
                   });
             }
-
             return const Center(child: CircularProgressIndicator());
           }),
     );
+  }
+
+  int compare(dynamic a, dynamic b) {
+    if (a['endDateToApply'] == b['endDateToApply']) {
+      if (a['id'] < b['id']) {
+        return 1;
+      } else {
+        return -1;
+      }
+    }
+    if ((DateTime.parse(a['endDateToApply'])
+        .difference(DateTime.parse(b['endDateToApply']))
+        .isNegative)) {
+      return 1;
+    }
+    return -1;
   }
 }

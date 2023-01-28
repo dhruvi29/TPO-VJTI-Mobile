@@ -8,6 +8,7 @@ import 'package:supa_test/screens/application/application_edit.dart';
 import 'package:supa_test/screens/application/applications_list.dart';
 import 'package:supa_test/screens/auth/signin.dart';
 import 'package:supa_test/screens/calender.dart';
+import 'package:supa_test/screens/job/archived_joblist.dart';
 import 'package:supa_test/wrapper.dart';
 import 'package:supa_test/screens/home_page.dart';
 import 'package:supa_test/screens/job/job_display.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
               EditProfile.id: (context) => EditProfile(),
               JobProfile.id: (context) => JobProfile(),
               AllJobs.id: (context) => const AllJobs(),
+              ArchivedJobList.id: (context) => const ArchivedJobList(),
               ApplicationList.id: (context) => const ApplicationList(),
               EditApplication.id: (context) => EditApplication(),
               Calender.id: (context) => const Calender(),
