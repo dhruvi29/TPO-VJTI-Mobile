@@ -1,4 +1,70 @@
-class Student{
-static dynamic student;
-  
+class Student {
+  static var student;
+  final id,
+      firstName,
+      middleName,
+      lastName,
+      mobileNumber,
+      clgEmail,
+      clgId,
+      programme,
+      branch,
+      dob,
+      age,
+      gender,
+      gradYear,
+      SPI1,
+      SPI2,
+      SPI3,
+      SPI4,
+      SPI5,
+      SPI6,
+      SPI7,
+      SPI8,
+      CPI,
+      tenth,
+      twelveth,
+      isDreamPlaced,
+      isNormalPlaced,
+      isSuperPlaced,
+      resumeLink,
+      personalEmail,
+      isVerified;
+  Student(
+      {this.id,
+      this.firstName,
+      this.middleName,
+      this.lastName,
+      this.mobileNumber,
+      this.clgEmail,
+      this.clgId,
+      this.programme,
+      this.branch,
+      this.dob,
+      this.age,
+      this.gender,
+      this.gradYear,
+      this.SPI1,
+      this.SPI2,
+      this.SPI3,
+      this.SPI4,
+      this.SPI5,
+      this.SPI6,
+      this.SPI7,
+      this.SPI8,
+      this.CPI,
+      this.tenth,
+      this.twelveth,
+      this.isDreamPlaced,
+      this.isNormalPlaced,
+      this.isSuperPlaced,
+      this.resumeLink,
+      this.personalEmail,
+      this.isVerified});
 }
+
+// sampleStudent = {id: 632b83c0-ac19-4057-afb9-b477c58f6f1e, created_at: 2023-01-27T00:43:14+00:00, firstName: Anupam, middleName: Anand, lastName:Laddha , mobileNumber: 9819779847, clgEmail: aaladdha_b19@ce.vjti.ac.in, clgId: 191070040, programme: btech, branch: computer,   
+// dob: 2002-09-29, age: 20, gender: male, gradYear: 2023, isCr: true, SPI1: 9.9, SPI2: 9.9, SPI3: 9.9, SPI4: 9.9, SPI5: 9.9, SPI6: 
+// 9.9, SPI7: 9.9, SPI8: 9.9, CPI: 9.9, 10th: 99, 12th: 95, isDreamPlaced: true, isNormalPlaced: false, isSuperPlaced: false,       
+// resumeLink: https://drive.google.com/file/d/1sFJ6hhWKXBnjO8bZS2MSyl_4T7Dc6hsu/view?usp=share_link , personalEmail:
+// anupamladdha29@gmail.com, isVerified: true};

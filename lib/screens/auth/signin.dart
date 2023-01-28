@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supa_test/screens/auth/signup.dart';
 import 'package:supa_test/screens/home_page.dart';
-import 'package:supa_test/services/auth.dart';
+import 'package:supa_test/services/auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/User.dart';

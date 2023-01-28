@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supa_test/screens/auth/signin.dart';
 import 'package:supa_test/screens/home_page.dart';
-import 'package:supa_test/services/auth.dart';
+import 'package:supa_test/services/auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -270,9 +270,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SnackBar snackbar =
             const SnackBar(content: Text("Confirmation email sent! "));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
-      } else {
-        Navigator.pushReplacementNamed(context, MyHomePage.id);
-      }
+      } 
     }
   }
 
