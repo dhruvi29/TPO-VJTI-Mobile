@@ -25,26 +25,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    StudentUser? userVar = Provider.of<StudentUser?>(context);
-    StudentService _studentService = StudentService();
-
-    return FutureBuilder(
-      future: _studentService.initialData(
-          userVar?.userID ?? "632b83c0-ac19-4057-afb9-b477c58f6f1e"),
-      builder: (((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return StreamProvider.value(
-            value: _studentService.student,
-            initialData: _studentService.initialData(userVar?.userID ??
-                "632b83c0-ac19-4057-afb9-b477c58f6f1e"), //handle this future
-            child: HomePage(),
-          );
-        }
-        return const Center(child: CircularProgressIndicator());
-      })),
-    );
-
-    // return HomePage();
+    return HomePage();
   }
 }
 
@@ -59,7 +40,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Student? studentVar = Provider.of<Student?>(context);
-    print(studentVar?.firstName);
 
     return Scaffold(
       appBar: AppBar(
@@ -82,13 +62,13 @@ class _HomePageState extends State<HomePage> {
               })
         ],
       ),
-      body: Container(
+      body: studentVar == null ? Container():Container(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
         child: GridView.count(
           crossAxisCount: 2,
           padding: const EdgeInsets.all(3.0),
           children: <Widget>[
-            makeDashboardItem("Hello, Dhruvi", Icons.person,
+            makeDashboardItem("Hello, ${studentVar.firstName}", Icons.person,
                 () => Navigator.pushNamed(context, StudentProfile.id)),
             makeDashboardItem("My Applications", Icons.document_scanner,
                 () => Navigator.pushNamed(context, ApplicationList.id)),
@@ -99,14 +79,16 @@ class _HomePageState extends State<HomePage> {
                       context,
                       Calender.id,
                     )),
-            makeDashboardItem("Past Experiences", Icons.add_reaction, () async {
+            makeDashboardItem("Past Experiences", Icons.add_reaction, 
+            () async {
               try {
                 await launchUrlString(
                     "https://drive.google.com/drive/folders/1BCKFtr9FWDI0iJ74bTYJdsYS74uKBq98?usp=sharing");
               } catch (err) {
                 debugPrint('Something bad happened');
               }
-            }),
+            }
+            ),
             makeDashboardItem("Search Jobs", Icons.search,
                 () => Navigator.pushNamed(context, AllJobs.id)),
             makeDashboardItem("Announcements", Icons.announcement, null),

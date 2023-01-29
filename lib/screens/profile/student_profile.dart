@@ -32,9 +32,6 @@ class _StudentProfileState extends State<StudentProfile> {
 
   @override
   Widget build(BuildContext context) {
-    // StudentUser? userVar = Provider.of<StudentUser?>(context);
-    // print("ddddddddddddddd");
-    // print(userVar?.userID);
     StudentUser userVar = Provider.of<StudentUser>(context);
     return FutureBuilder<void>(
         future: readData(userVar),

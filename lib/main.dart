@@ -14,9 +14,12 @@ import 'package:supa_test/screens/job/job_display.dart';
 import 'package:supa_test/screens/job/jobs_list.dart';
 import 'package:supa_test/screens/profile/student_profile.dart';
 import 'package:supa_test/services/auth_service.dart';
+import 'package:supa_test/services/student_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supa_test/screens/auth/signup.dart';
 import 'package:supa_test/screens/profile/edit_profile.dart';
+
+import 'models/student.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,33 +37,57 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthService _authService = AuthService();
-    return provider.StreamProvider.value(
-        value: _authService.user,
-        initialData: _authService.getInitialUser(),
-        catchError: (context, error) => StudentUser.withId(error.toString()),
-        child: CalendarControllerProvider(
-          controller: EventController(),
-          child: MaterialApp(
-            title: 'TPO VJTI',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                primarySwatch: Colors.amber,
-                iconTheme: const IconThemeData(color: Colors.amber)),
-            initialRoute: provider.Provider.of<StudentUser?>(context) == null ? SignIn.id : MyHomePage.id,
-            routes: {
-              MyHomePage.id: (context) => const MyHomePage(),
-              StudentProfile.id: (context) => StudentProfile(),
-              EditProfile.id: (context) => EditProfile(),
-              JobProfile.id: (context) => JobProfile(),
-              AllJobs.id: (context) => const AllJobs(),
-              ArchivedJobList.id: (context) => const ArchivedJobList(),
-              // ApplicationList.id: (context) => const ApplicationList(),
-              // EditApplication.id: (context) => EditApplication(),
-              Calender.id: (context) => const Calender(),
-              SignIn.id: (context) => SignIn(),
-              SignUpScreen.id: (context) => const SignUpScreen(),
-            },
-          ),
-        ));
+    StudentService _studentService = StudentService();
+    return provider.MultiProvider(
+      providers: [
+        provider.StreamProvider.value(
+            value: _authService.user,
+            initialData: _authService.getInitialUser(),
+            catchError: (context, error) =>
+                StudentUser.withId(error.toString())),
+        // provider.StreamProvider.value(value: _jobService.jobs, initialData: _jobsService.jobs)
+        // one more provider for TPO policies? Future Provider
+      ],
+      child:FutureBuilder(
+      future: _studentService.initialData(
+          provider.Provider.of<StudentUser?>(context)?.userID ?? "632b83c0-ac19-4057-afb9-b477c58f6f1e"),
+      builder: (((context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return provider.StreamProvider<Student>.value( // multiprovider -> applications
+            value: _studentService.student,
+            initialData: snapshot.data as Student, //handle this future
+            child:       CalendarControllerProvider(
+        controller: EventController(),
+        child: MaterialApp(
+          title: 'TPO VJTI',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              primarySwatch: Colors.amber,
+              iconTheme: const IconThemeData(color: Colors.amber)),
+          initialRoute: provider.Provider.of<StudentUser?>(context) == null
+              ? SignIn.id
+              : MyHomePage.id,
+          routes: {
+            MyHomePage.id: (context) => const MyHomePage(),
+            StudentProfile.id: (context) => StudentProfile(),
+            EditProfile.id: (context) => EditProfile(),
+            JobProfile.id: (context) => JobProfile(),
+            AllJobs.id: (context) => const AllJobs(),
+            ArchivedJobList.id: (context) => const ArchivedJobList(),
+            ApplicationList.id: (context) => const ApplicationList(),
+            EditApplication.id: (context) => EditApplication(),
+            Calender.id: (context) => const Calender(),
+            SignIn.id: (context) => SignIn(),
+            SignUpScreen.id: (context) => const SignUpScreen(),
+          },
+        ),
+      ),
+          );
+        }
+        return const Center(child: CircularProgressIndicator());
+      })),
+    ) 
+,
+    );
   }
 }

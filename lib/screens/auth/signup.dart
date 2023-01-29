@@ -261,7 +261,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void onTapBtnSignUp(context) async {
     final response = await AuthService().registerWithEmailAndPassword(
         emailController.text, passwordController.text);
-    print(response);
     if (response == null) {
       SnackBar snackbar = const SnackBar(content: Text("Error"));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);

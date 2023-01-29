@@ -6,7 +6,6 @@ class StudentService {
   Student _studentFromSupabaseState(data) {
 
 
-    print(data);
     data = data[0];
     Student.student = data;
     return Student(
@@ -44,7 +43,6 @@ class StudentService {
   }
 
   Stream<Student> get student{
-    // print(id);
     return supabase
         .from('Students')
         .stream(primaryKey: ['id'])

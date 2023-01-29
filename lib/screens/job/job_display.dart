@@ -4,6 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:supa_test/models/student.dart';
 import 'package:supa_test/screens/application/application_edit.dart';
+import 'package:provider/provider.dart' as pro;
+
 
 final supabase = Supabase.instance.client;
 
@@ -22,10 +24,13 @@ class _JobProfileState extends State<JobProfile> {
     return data;
   }
 
-  bool studentEligibility = true;
+bool studentEligibility = true;
+  Student? studentVar;
+
 
   @override
   Widget build(BuildContext context) {
+  studentVar= pro.Provider.of<Student>(context);
     final jobId = ModalRoute.of(context)!.settings.arguments as int;
     return FutureBuilder(
         future: readData(jobId),
@@ -86,6 +91,7 @@ class _JobProfileState extends State<JobProfile> {
     return FutureBuilder(
         future: readEligility(jobId),
         builder: ((context, AsyncSnapshot snapshot) {
+
           if (snapshot.connectionState == ConnectionState.done) {
             var criteria = snapshot.data[0];
             return Column(
@@ -160,7 +166,7 @@ class _JobProfileState extends State<JobProfile> {
       return Container();
     }
     bool e = true;
-    if (criteria["cpi"] > Student.student['CPI']) {
+    if (criteria["cpi"] > studentVar?.CPI) {
       e = false;
 
       studentEligibility = false;
@@ -187,7 +193,7 @@ class _JobProfileState extends State<JobProfile> {
       return Container();
     }
     bool e = true;
-    if (criteria["12th"] > Student.student['12th']) {
+    if (criteria["12th"] > studentVar!.twelveth) {
       e = false;
 
       studentEligibility = false;
@@ -214,7 +220,7 @@ class _JobProfileState extends State<JobProfile> {
       return Container();
     }
     bool e = true;
-    if (criteria["10th"] > Student.student['10th']) {
+    if (criteria["10th"] > studentVar!.tenth) {
       e = false;
       studentEligibility = false;
     }
@@ -243,7 +249,7 @@ class _JobProfileState extends State<JobProfile> {
     bool e = true;
     if (!criteria["allowedGenders"]
         .split(",")
-        .contains(Student.student['gender'])) {
+        .contains(studentVar!.gender)) {
       e = false;
       studentEligibility = false;
     }
@@ -272,7 +278,7 @@ class _JobProfileState extends State<JobProfile> {
     bool e = true;
     if (!criteria["allowedBranches"]
         .split(",")
-        .contains(Student.student['branch'])) {
+        .contains(studentVar!.branch)) {
       e = false;
       studentEligibility = false;
     }
@@ -301,7 +307,7 @@ class _JobProfileState extends State<JobProfile> {
     bool e = true;
     if (!criteria["allowedPrograms"]
         .split(",")
-        .contains(Student.student['programme'])) {
+        .contains(studentVar!.programme)) {
       e = false;
       studentEligibility = false;
     }

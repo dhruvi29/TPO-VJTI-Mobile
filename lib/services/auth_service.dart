@@ -1,4 +1,3 @@
-import 'package:supa_test/models/student.dart';
 import 'package:supa_test/models/student_user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
