@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supa_test/screens/auth/signin.dart';
 import 'package:supa_test/screens/home_page.dart';
 import 'package:supa_test/services/auth.dart';
+import 'package:supa_test/constants/supabse_client.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 right: 16,
                               ),
                               child: const Text(
-                                "Welcome to Supabase",
+                                "TPO VJTI",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -259,20 +260,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void onTapBtnSignUp(context) async {
-    final response = await AuthService().registerWithEmailAndPassword(
-        emailController.text, passwordController.text);
-    print(response);
-    if (response == null) {
-      SnackBar snackbar = const SnackBar(content: Text("Error"));
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-    } else {
-      if (response.session == null) {
-        SnackBar snackbar =
-            const SnackBar(content: Text("Confirmation email sent! "));
+    //TODO: Create Student row
+    final email_string = emailController.text;
+    if (email_string.contains("vjti.ac.in")) {
+      final response = await AuthService().registerWithEmailAndPassword(
+          emailController.text, passwordController.text);
+
+      final User? user = response.user;
+      print("=================dssfdsf");
+      print(user?.id);
+      print("==============dfsfsdf");
+
+      final res = await supabase
+          .from('Students')
+          .insert({"id": user?.id, "clgEmail": emailController.text});
+
+      if (response == null) {
+        SnackBar snackbar = const SnackBar(content: Text("Error"));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       } else {
-        Navigator.pushReplacementNamed(context, MyHomePage.id);
+        if (response.session == null) {
+          SnackBar snackbar =
+              const SnackBar(content: Text("Confirmation email sent! "));
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          Navigator.pushReplacementNamed(context, SignIn.id);
+        } else {
+          Navigator.pushReplacementNamed(context, MyHomePage.id);
+        }
       }
+    } else {
+      SnackBar snackbar =
+          const SnackBar(content: Text("Kindly Use VJTI Email ID"));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
 
