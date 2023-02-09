@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:supa_test/screens/auth/signup.dart';
 import 'package:supa_test/screens/home_page.dart';
+import 'package:supa_test/screens/profile/set__profile.dart';
 import 'package:supa_test/services/auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../models/User.dart';
+import '../../constants/supabse_client.dart';
+import '../../wrapper.dart';
 
 class SignIn extends StatefulWidget {
   static const id = "SignInScreen";
@@ -19,6 +21,13 @@ class _SignInState extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  Future<bool> gethasSetProfile(id) async {
+    final hasSetProfile =
+        await supabase.from('Students').select('hasSetProfile').eq("id", id);
+
+    return hasSetProfile[0]["hasSetProfile"];
+  }
+
   void onTapBtnSignin(context) async {
     final response = await AuthService().signInWithEmailAndPassword(
         emailController.text, passwordController.text);
@@ -27,7 +36,7 @@ class _SignInState extends State<SignIn> {
       SnackBar snackbar = const SnackBar(content: Text("Error"));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     } else {
-      Navigator.pushReplacementNamed(context, MyHomePage.id);
+      Navigator.pushReplacementNamed(context, Decision.id);
     }
   }
 

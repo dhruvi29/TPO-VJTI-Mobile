@@ -14,8 +14,6 @@ import 'package:supa_test/widgets/dashboard_item.dart';
 
 import 'package:supa_test/constants/supabse_client.dart' as supa;
 
-
-
 class MyHomePage extends StatefulWidget {
   static const id = "HomePage";
 
@@ -27,17 +25,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<void> getUserData(id) async {
-    final data = await supa.supabase
-        .from('Students')
-        .select('''*''').match({'id': id});
+    final data =
+        await supa.supabase.from('Students').select('''*''').match({'id': id});
     Student.student = data[0];
     return data[0];
   }
 
   @override
   Widget build(BuildContext context) {
-    supa.supabase.auth.onAuthStateChange.listen((data) {
-    });
+    supa.supabase.auth.onAuthStateChange.listen((data) {});
     StudentUser userVar = Provider.of<StudentUser>(context);
 
     return Scaffold(
